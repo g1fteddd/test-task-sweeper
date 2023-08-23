@@ -1,7 +1,7 @@
-import React from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
-import Main from './pages/Main/Main'
-import Leaderboard from './pages/Leaderboard/Leaderboard'
+import React from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import Main from './pages/Main/Main';
+import Leaderboard from './pages/Leaderboard/Leaderboard';
 
 function App() {
 	return (
@@ -12,7 +12,7 @@ function App() {
 				<Route path='*' element={<Navigate to='/' />} />
 			</Routes>
 		</div>
-	)
+	);
 }
 
-export default App
+export default App;
