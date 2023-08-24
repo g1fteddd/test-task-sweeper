@@ -1,4 +1,8 @@
-import { IDifficulty } from '../redux/settings/types';
+interface IDifficulty {
+	width: number;
+	height: number;
+	mines: number;
+}
 
 enum DifficultyName {
 	EASY = 'easy',
@@ -10,7 +14,7 @@ type TConfigDifficulty = {
 	[key in DifficultyName]: IDifficulty;
 };
 
-export const configDifficulty: TConfigDifficulty = {
+const configDifficulty: TConfigDifficulty = {
 	easy: {
 		width: 8,
 		height: 8,
@@ -27,3 +31,5 @@ export const configDifficulty: TConfigDifficulty = {
 		mines: 100,
 	},
 };
+
+export default configDifficulty;
