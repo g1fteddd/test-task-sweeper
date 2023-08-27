@@ -11,10 +11,11 @@ import {
 import TextField from '../../components/ui/TextField/TextField';
 import RadioField from '../../components/ui/RadioField/RadioField';
 import Button from '../../components/ui/Button/Button';
+import { DifficultyName } from '../../utils/configDifficulty';
 
 const Settings: React.FC = () => {
 	const dispatch = useAppDispatch();
-	const { name, gameDifficulty } = useSelector(settingsSelector);
+	const { name } = useSelector(settingsSelector);
 
 	const dataDifficulty = [
 		{ value: 'easy', text: 'Простой 8x8, 10 мин' },
@@ -32,7 +33,7 @@ const Settings: React.FC = () => {
 		e: React.ChangeEvent<HTMLInputElement>,
 	) => {
 		setDifficulty(e.target.value);
-		dispatch(setGameDifficulty(e.target.value));
+		dispatch(setGameDifficulty(e.target.value as DifficultyName));
 	};
 
 	const handleClick = () => {

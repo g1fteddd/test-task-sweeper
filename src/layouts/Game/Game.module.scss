@@ -1,0 +1,18 @@
+.game {
+	width: 300px;
+	height: 300px;
+	margin: 0 auto;
+	padding: 10px;
+	background-color: white;
+	border-radius: 10px;
+	text-align: center;
+
+	.panel {
+		.result {
+			padding: 5px;
+			border-radius: 5px;
+			border: 1px solid rgb(227, 223, 255);
+			font-size: 16px;
+		}
+	}
+}

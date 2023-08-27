@@ -1,10 +1,10 @@
-interface IDifficulty {
+export interface IDifficulty {
 	width: number;
 	height: number;
 	mines: number;
 }
 
-enum DifficultyName {
+export enum DifficultyName {
 	EASY = 'easy',
 	MEDIUM = 'medium',
 	HARD = 'hard',

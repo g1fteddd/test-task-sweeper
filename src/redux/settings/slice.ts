@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ISettings } from './types';
+import { DifficultyName } from '../../utils/configDifficulty';
 
 const initialState: ISettings = {
 	name: '',
-	gameDifficulty: 'easy',
+	gameDifficulty: DifficultyName.EASY,
 	hasGameStarted: false,
 };
 
