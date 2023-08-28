@@ -3,16 +3,17 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import Main from './pages/Main/Main';
 import Leaderboard from './pages/Leaderboard/Leaderboard';
 import styles from './App.module.scss';
+import Header from './components/Header/Header';
 
-// TODO: сделать красиво
 // TODO: поправить README.md
 // TODO: Постараться сделать допы
-// TODO: смена флажком на мобилке
 // TODO: сделать первым касанием островок
 
 function App() {
 	return (
-		<div className={styles['App']}>
+		<div className={styles['app']}>
+
+			<Header />
 			<Routes>
 				<Route path='/' element={<Main />} />
 				<Route path='/leaderboard' element={<Leaderboard />} />

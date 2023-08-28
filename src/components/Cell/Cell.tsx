@@ -3,6 +3,7 @@ import styles from './Cell.module.scss';
 import { ICell } from '../../utils/initializeBoard';
 
 interface ICellProps extends ICell {
+	className: string;
 	onClick: (
 		e: React.MouseEvent<HTMLDivElement>,
 		x: number,
@@ -22,16 +23,17 @@ interface INumberColorMap {
 }
 
 const Cell: React.FC<ICellProps> = ({
-	value,
-	isRevealed,
-	isMine,
-	isFlag,
-	isQuestion,
-	onClick,
-	onRightClick,
-	x,
-	y,
-}) => {
+										className,
+										value,
+										isRevealed,
+										isMine,
+										isFlag,
+										isQuestion,
+										onClick,
+										onRightClick,
+										x,
+										y,
+									}) => {
 	const numberToColorMap: INumberColorMap = {
 		1: 'blue',
 		2: 'green',
@@ -55,7 +57,7 @@ const Cell: React.FC<ICellProps> = ({
 		<div
 			className={[
 				styles['cell'],
-				styles[`${isRevealed ? 'open' : ''}`],
+				styles[`${isRevealed ? 'open' : ''}`], className,
 			].join(' ')}
 			onClick={e => onClick(e, x, y)}
 			onContextMenu={e => onRightClick(e, x, y)}

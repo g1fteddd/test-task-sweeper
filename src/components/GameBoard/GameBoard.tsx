@@ -10,6 +10,7 @@ import showAllCell from '../../utils/showAllCell';
 interface IGameBoardProps extends IDifficulty {
 	board: ICell[][];
 	setBoard: React.Dispatch<React.SetStateAction<ICell[][]>>;
+	flagForMobile: boolean;
 	setIsWin: React.Dispatch<React.SetStateAction<boolean>>;
 	setIsLose: React.Dispatch<React.SetStateAction<boolean>>;
 	setFlagsCount: React.Dispatch<React.SetStateAction<number>>;
@@ -17,38 +18,17 @@ interface IGameBoardProps extends IDifficulty {
 }
 
 const GameBoard: React.FC<IGameBoardProps> = ({
-	board,
-	setBoard,
-	setIsWin,
-	setIsLose,
-	setFlagsCount,
-	setIsRunning,
-	width,
-	height,
-	mines,
-}) => {
-	const handleLeftClick = (
-		e: React.MouseEvent<HTMLDivElement>,
-		x: number,
-		y: number,
-	) => {
-		const copyBoard: ICell[][] = cloneBoard(board);
-		const cell = copyBoard[x][y];
-
-		if (cell.isFlag || cell.isQuestion) return;
-
-		if (cell.isMine) {
-			setIsLose(true);
-			setIsRunning(false);
-			// Показываем все клетки
-			const openBoard = showAllCell(board, width, height);
-			setBoard(openBoard);
-		} else {
-			// Открываем соседей
-			openNeighbors(copyBoard, x, y, width, height);
-			setBoard(copyBoard);
-		}
-	};
+												  board,
+												  setBoard,
+												  flagForMobile,
+												  setIsWin,
+												  setIsLose,
+												  setFlagsCount,
+												  setIsRunning,
+												  width,
+												  height,
+												  mines,
+											  }) => {
 
 	const handleRightClick = (
 		e: React.MouseEvent<HTMLDivElement>,
@@ -75,6 +55,35 @@ const GameBoard: React.FC<IGameBoardProps> = ({
 
 		setBoard(copyBoard);
 	};
+	const handleLeftClick = (
+		e: React.MouseEvent<HTMLDivElement>,
+		x: number,
+		y: number,
+	) => {
+
+		if (flagForMobile) {
+			handleRightClick(e, x, y);
+			return;
+		}
+
+		const copyBoard: ICell[][] = cloneBoard(board);
+		const cell = copyBoard[x][y];
+
+		if (cell.isFlag || cell.isQuestion) return;
+
+		if (cell.isMine) {
+			setIsLose(true);
+			setIsRunning(false);
+			// Показываем все клетки
+			const openBoard = showAllCell(board, width, height);
+			setBoard(openBoard);
+		} else {
+			// Открываем соседей
+			openNeighbors(copyBoard, x, y, width, height);
+			setBoard(copyBoard);
+		}
+	};
+
 
 	useEffect(() => {
 		const revealedCells = board
@@ -95,6 +104,7 @@ const GameBoard: React.FC<IGameBoardProps> = ({
 				<div key={rowIndex} className={styles['row']}>
 					{row.map((cellData, colIndex) => (
 						<Cell
+							className={width <= 8 ? styles['big-cell'] : styles['small-cell']}
 							key={colIndex}
 							{...cellData}
 							onClick={handleLeftClick}

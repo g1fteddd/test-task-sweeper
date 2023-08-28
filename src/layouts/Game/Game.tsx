@@ -17,6 +17,9 @@ const Game: React.FC = () => {
 	const { name, gameDifficulty } = useSelector(settingsSelector);
 	const { users } = useSelector(usersSelector);
 
+	const widthWindow = document.documentElement.clientWidth;
+	const [flagForMobile, setFlagForMobile] = useState(false);
+
 	const [isWin, setIsWin] = useState(false);
 	const [isLose, setIsLose] = useState(false);
 
@@ -35,6 +38,8 @@ const Game: React.FC = () => {
 
 		setTime(0);
 		setIsRunning(true);
+
+		setFlagForMobile(false);
 
 		setFlagsCount(0);
 
@@ -75,6 +80,7 @@ const Game: React.FC = () => {
 		}
 	}, [isWin]);
 
+
 	return (
 		<>
 			<div className={styles['game']}>
@@ -101,14 +107,21 @@ const Game: React.FC = () => {
 						)}
 					</div>
 					<Button onClick={resetGame}>Перезапуск игры</Button>
+
 					<Button onClick={goToSettings}>
 						Вернуться к настройкам
 					</Button>
+					{widthWindow <= 768 && <>
+						<Button
+							className={flagForMobile ? styles['active-button-mobile'] : ''}
+							onClick={() => setFlagForMobile(prev => !prev)}>{'🚩 / ❓'}</Button>
+					</>}
 				</div>
 
 				<GameBoard
 					board={board}
 					setBoard={setBoard}
+					flagForMobile={flagForMobile}
 					setIsWin={setIsWin}
 					setIsLose={setIsLose}
 					setFlagsCount={setFlagsCount}

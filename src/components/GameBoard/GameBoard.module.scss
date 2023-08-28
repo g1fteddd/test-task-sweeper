@@ -1,5 +1,31 @@
 .board {
 	.row {
 		display: flex;
+
+
+		.big-cell {
+			width: 32px;
+			height: 32px;
+
+			@media (max-width: 420px) {
+				width: 32px;
+				height: 32px;
+			}
+		}
+
+		.small-cell {
+			width: 32px;
+			height: 32px;
+
+			@media (max-width: 550px) {
+				width: 24px;
+				height: 24px;
+			}
+
+			@media (max-width: 420px) {
+				width: 18px;
+				height: 18px;
+			}
+		}
 	}
 }
