@@ -1,4 +1,4 @@
-import { ICell } from '../components/GameBoard/GameBoard';
+import { ICell } from './initializeBoard';
 
 const openNeighbors = (board: ICell[][], x: number, y: number, width: number, height: number) => {
 	if (

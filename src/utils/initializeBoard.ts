@@ -1,7 +1,15 @@
 import { IDifficulty } from './configDifficulty';
 
+export interface ICell {
+	isRevealed: boolean;
+	isMine: boolean;
+	value: number;
+	isFlag: boolean;
+	isQuestion: boolean;
+}
+
 const initializeBoard = ({ width, height, mines }: IDifficulty) => {
-	const board = new Array(width).fill(null).map(() =>
+	const board: ICell[][] = new Array(width).fill(null).map(() =>
 		new Array(height).fill(null).map(() => ({
 			isRevealed: false,
 			isMine: false,

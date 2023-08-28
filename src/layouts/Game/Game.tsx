@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Game.module.scss';
 import { useSelector } from 'react-redux';
 import { settingsSelector } from '../../redux/settings/selectors';
@@ -9,17 +9,19 @@ import { useAppDispatch } from '../../redux/store';
 import { setHasGameStarted } from '../../redux/settings/slice';
 import initializeBoard from '../../utils/initializeBoard';
 import GameBoard from '../../components/GameBoard/GameBoard';
+import { usersSelector } from '../../redux/users/selectors';
+import { setUsers } from '../../redux/users/slice';
 
 const Game: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const { name, gameDifficulty } = useSelector(settingsSelector);
+	const { users } = useSelector(usersSelector);
 
 	const [isWin, setIsWin] = useState(false);
 	const [isLose, setIsLose] = useState(false);
 
-	const [minesCount, setMinesCount] = useState(
-		configDifficulty[gameDifficulty].mines,
-	);
+
+	// TODO: могут уйти в минус
 	const [flagsCount, setFlagsCount] = useState(0);
 
 	const [time, setTime] = useState(0);
@@ -45,6 +47,32 @@ const Game: React.FC = () => {
 		dispatch(setHasGameStarted(false));
 	};
 
+	useEffect(() => {
+		if (isWin) {
+			let newUsers = [...users];
+
+			const foundIndexUser = newUsers.findIndex(user => user.name === name);
+
+			if (foundIndexUser !== -1 && newUsers[foundIndexUser].time > time) {
+				newUsers[foundIndexUser] = { ...newUsers[foundIndexUser], time };
+			} else {
+				newUsers.push({ name, time });
+			}
+
+			newUsers.sort((a, b) => a.time - b.time);
+
+			// Ограничение только до топ 10
+			if (newUsers.length > 10) {
+				newUsers = newUsers.slice(0, 10);
+			}
+
+			dispatch(setUsers(newUsers));
+
+			localStorage.setItem('users', JSON.stringify(newUsers));
+
+		}
+	}, [isWin]);
+
 	return (
 		<>
 			<div className={styles['game']}>
@@ -57,27 +85,29 @@ const Game: React.FC = () => {
 					<div className={styles['result']}>
 						{isWin
 							? 'Вы победили!'
-							: isLose
-							? 'Вы проиграли!'
-							: `Счёт: ${minesCount - flagsCount}`}
+							: isLose ? 'Вы проиграли!'
+								: `Счёт: ${configDifficulty[gameDifficulty].mines - flagsCount}`}
 					</div>
 					<Button onClick={resetGame}>Перезапуск игры</Button>
 					<Button onClick={goToSettings}>
 						Вернуться к настройкам
 					</Button>
 				</div>
+
+				<GameBoard
+					board={board}
+					setBoard={setBoard}
+
+					setIsWin={setIsWin}
+
+					setIsLose={setIsLose}
+					setFlagsCount={setFlagsCount}
+					setIsRunning={setIsRunning}
+					{...configDifficulty[gameDifficulty]}
+				/>
 			</div>
 
-			<GameBoard
-				board={board}
-				setBoard={setBoard}
-				isWin={isWin}
-				setIsWin={setIsWin}
-				isLose={isLose}
-				setIsLose={setIsLose}
-				setFlagsCount={setFlagsCount}
-				{...configDifficulty[gameDifficulty]}
-			/>
+
 		</>
 	);
 };

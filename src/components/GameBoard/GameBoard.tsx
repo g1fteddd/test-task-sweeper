@@ -3,36 +3,26 @@ import styles from './GameBoard.module.scss';
 import Cell from '../Cell/Cell';
 import cloneBoard from '../../utils/cloneBoard';
 import openNeighbors from '../../utils/openNeighbors';
+import { ICell } from '../../utils/initializeBoard';
+import { IDifficulty } from '../../utils/configDifficulty';
 
-export interface ICell {
-	isRevealed: boolean;
-	isMine: boolean;
-	value: number;
-	isFlag: boolean;
-	isQuestion: boolean;
-}
-
-interface IGameBoardProps {
+// TODO: Прописать нормальные типы
+interface IGameBoardProps extends IDifficulty {
 	board: ICell[][];
-	setBoard: Function;
-	isWin: boolean;
-	setIsWin: Function;
-	isLose: boolean;
-	setIsLose: Function;
-	setFlagsCount: Function;
-	width: number;
-	height: number;
-	mines: number;
+	setBoard: React.Dispatch<React.SetStateAction<ICell[][]>>;
+	setIsWin: React.Dispatch<React.SetStateAction<boolean>>;
+	setIsLose: React.Dispatch<React.SetStateAction<boolean>>;
+	setFlagsCount: React.Dispatch<React.SetStateAction<number>>;
+	setIsRunning: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const GameBoard: React.FC<IGameBoardProps> = ({
 												  board,
-												  isWin,
+												  setBoard,
 												  setIsWin,
-												  isLose,
 												  setIsLose,
 												  setFlagsCount,
-												  setBoard,
+												  setIsRunning,
 												  width,
 												  height,
 												  mines,
@@ -43,10 +33,12 @@ const GameBoard: React.FC<IGameBoardProps> = ({
 		y: number,
 	) => {
 		const copyBoard: ICell[][] = cloneBoard(board);
+		const cell = copyBoard[x][y];
 
-		if (!copyBoard[x][y].isFlag && !copyBoard[x][y].isQuestion) {
-			if (copyBoard[x][y].isMine) {
+		if (!cell.isFlag && !cell.isQuestion) {
+			if (cell.isMine) {
 				setIsLose(true);
+				setIsRunning(false);
 				for (let i = 0; i < width; i++) {
 					for (let j = 0; j < height; j++) {
 						copyBoard[i][j].isRevealed = true;
@@ -64,8 +56,7 @@ const GameBoard: React.FC<IGameBoardProps> = ({
 		y: number,
 	) => {
 		e.preventDefault();
-		const copyBoard = cloneBoard(board); // Клонируем доску
-
+		const copyBoard = cloneBoard(board);
 		const cell = copyBoard[x][y];
 
 		if (cell.isRevealed) return;
@@ -91,6 +82,7 @@ const GameBoard: React.FC<IGameBoardProps> = ({
 			.filter(cell => cell.isRevealed).length;
 		if (revealedCells === width * height - mines) {
 			setIsWin(true);
+			setIsRunning(false);
 		}
 	}, [board]);
 

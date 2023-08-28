@@ -1,13 +1,8 @@
 import React from 'react';
 import styles from './Cell.module.scss';
+import { ICell } from '../../utils/initializeBoard';
 
-interface ICellProps {
-	// TODO: объединить с ICell
-	isRevealed: boolean;
-	isMine: boolean;
-	value: number;
-	isFlag: boolean;
-	isQuestion: boolean;
+interface ICellProps extends ICell {
 	onClick: (
 		e: React.MouseEvent<HTMLDivElement>,
 		x: number,
@@ -18,22 +13,37 @@ interface ICellProps {
 		x: number,
 		y: number,
 	) => void;
-
 	x: number;
 	y: number;
 }
 
+interface INumberColorMap {
+	[key: number]: string;
+}
+
+
 const Cell: React.FC<ICellProps> = ({
-	value,
-	isRevealed,
-	isMine,
-	isFlag,
-	isQuestion,
-	onClick,
-	onRightClick,
-	x,
-	y,
-}) => {
+										value,
+										isRevealed,
+										isMine,
+										isFlag,
+										isQuestion,
+										onClick,
+										onRightClick,
+										x,
+										y,
+									}) => {
+	const numberToColorMap: INumberColorMap = {
+		1: 'blue',
+		2: 'green',
+		3: 'red',
+		4: 'darkblue',
+		5: 'brown',
+		6: 'turquoise',
+		7: 'black',
+		8: 'white',
+	};
+
 	const getValue = () => {
 		if (isFlag) return '🚩';
 		if (isQuestion) return '❓';
@@ -44,9 +54,10 @@ const Cell: React.FC<ICellProps> = ({
 	};
 	return (
 		<div
-			className={styles['cell']}
+			className={[styles['cell'], styles[`${isRevealed ? 'open' : ''}`]].join(' ')}
 			onClick={e => onClick(e, x, y)}
 			onContextMenu={e => onRightClick(e, x, y)}
+			style={{ color: numberToColorMap[value] }}
 		>
 			{getValue()}
 		</div>

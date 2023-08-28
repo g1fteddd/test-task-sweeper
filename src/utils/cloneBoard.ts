@@ -1,4 +1,4 @@
-import { ICell } from '../components/GameBoard/GameBoard';
+import { ICell } from './initializeBoard';
 
 const cloneBoard = (board: ICell[][]) => {
 	return board.map(row =>
