@@ -5,10 +5,6 @@ import Leaderboard from './pages/Leaderboard/Leaderboard';
 import styles from './App.module.scss';
 import Header from './components/Header/Header';
 
-// TODO: поправить README.md
-// TODO: Постараться сделать допы
-// TODO: сделать первым касанием островок
-
 function App() {
 	return (
 		<div className={styles['app']}>
