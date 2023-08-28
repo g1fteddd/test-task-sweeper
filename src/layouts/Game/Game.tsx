@@ -80,7 +80,6 @@ const Game: React.FC = () => {
 		}
 	}, [isWin]);
 
-
 	return (
 		<>
 			<div className={styles['game']}>
@@ -111,11 +110,20 @@ const Game: React.FC = () => {
 					<Button onClick={goToSettings}>
 						Вернуться к настройкам
 					</Button>
-					{widthWindow <= 768 && <>
-						<Button
-							className={flagForMobile ? styles['active-button-mobile'] : ''}
-							onClick={() => setFlagForMobile(prev => !prev)}>{'🚩 / ❓'}</Button>
-					</>}
+					{widthWindow <= 768 && (
+						<>
+							<Button
+								className={
+									flagForMobile
+										? styles['active-button-mobile']
+										: ''
+								}
+								onClick={() => setFlagForMobile(prev => !prev)}
+							>
+								{'🚩 / ❓'}
+							</Button>
+						</>
+					)}
 				</div>
 
 				<GameBoard

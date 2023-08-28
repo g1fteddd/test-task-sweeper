@@ -18,18 +18,17 @@ interface IGameBoardProps extends IDifficulty {
 }
 
 const GameBoard: React.FC<IGameBoardProps> = ({
-												  board,
-												  setBoard,
-												  flagForMobile,
-												  setIsWin,
-												  setIsLose,
-												  setFlagsCount,
-												  setIsRunning,
-												  width,
-												  height,
-												  mines,
-											  }) => {
-
+	board,
+	setBoard,
+	flagForMobile,
+	setIsWin,
+	setIsLose,
+	setFlagsCount,
+	setIsRunning,
+	width,
+	height,
+	mines,
+}) => {
 	const handleRightClick = (
 		e: React.MouseEvent<HTMLDivElement>,
 		x: number,
@@ -60,7 +59,6 @@ const GameBoard: React.FC<IGameBoardProps> = ({
 		x: number,
 		y: number,
 	) => {
-
 		if (flagForMobile) {
 			handleRightClick(e, x, y);
 			return;
@@ -84,7 +82,6 @@ const GameBoard: React.FC<IGameBoardProps> = ({
 		}
 	};
 
-
 	useEffect(() => {
 		const revealedCells = board
 			.flat()
@@ -104,7 +101,11 @@ const GameBoard: React.FC<IGameBoardProps> = ({
 				<div key={rowIndex} className={styles['row']}>
 					{row.map((cellData, colIndex) => (
 						<Cell
-							className={width <= 8 ? styles['big-cell'] : styles['small-cell']}
+							className={
+								width <= 8
+									? styles['big-cell']
+									: styles['small-cell']
+							}
 							key={colIndex}
 							{...cellData}
 							onClick={handleLeftClick}

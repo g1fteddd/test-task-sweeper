@@ -9,7 +9,10 @@ interface IButtonProps {
 
 const Button: React.FC<IButtonProps> = ({ className, children, onClick }) => {
 	return (
-		<button className={`${styles['button']} ${className}`} onClick={onClick}>
+		<button
+			className={`${styles['button']} ${className}`}
+			onClick={onClick}
+		>
 			{children}
 		</button>
 	);
