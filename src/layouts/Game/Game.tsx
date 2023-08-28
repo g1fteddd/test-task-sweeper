@@ -20,8 +20,6 @@ const Game: React.FC = () => {
 	const [isWin, setIsWin] = useState(false);
 	const [isLose, setIsLose] = useState(false);
 
-
-	// TODO: могут уйти в минус
 	const [flagsCount, setFlagsCount] = useState(0);
 
 	const [time, setTime] = useState(0);
@@ -51,10 +49,15 @@ const Game: React.FC = () => {
 		if (isWin) {
 			let newUsers = [...users];
 
-			const foundIndexUser = newUsers.findIndex(user => user.name === name);
+			const foundIndexUser = newUsers.findIndex(
+				user => user.name === name,
+			);
 
 			if (foundIndexUser !== -1 && newUsers[foundIndexUser].time > time) {
-				newUsers[foundIndexUser] = { ...newUsers[foundIndexUser], time };
+				newUsers[foundIndexUser] = {
+					...newUsers[foundIndexUser],
+					time,
+				};
 			} else {
 				newUsers.push({ name, time });
 			}
@@ -69,7 +72,6 @@ const Game: React.FC = () => {
 			dispatch(setUsers(newUsers));
 
 			localStorage.setItem('users', JSON.stringify(newUsers));
-
 		}
 	}, [isWin]);
 
@@ -83,10 +85,20 @@ const Game: React.FC = () => {
 						setTime={setTime}
 					/>
 					<div className={styles['result']}>
-						{isWin
-							? 'Вы победили!'
-							: isLose ? 'Вы проиграли!'
-								: `Счёт: ${configDifficulty[gameDifficulty].mines - flagsCount}`}
+						{isWin ? (
+							<strong className={styles['win']}>
+								Вы победили!
+							</strong>
+						) : isLose ? (
+							<strong className={styles['lose']}>
+								Вы проиграли!
+							</strong>
+						) : (
+							`Счёт: ${
+								configDifficulty[gameDifficulty].mines -
+								flagsCount
+							}`
+						)}
 					</div>
 					<Button onClick={resetGame}>Перезапуск игры</Button>
 					<Button onClick={goToSettings}>
@@ -97,17 +109,13 @@ const Game: React.FC = () => {
 				<GameBoard
 					board={board}
 					setBoard={setBoard}
-
 					setIsWin={setIsWin}
-
 					setIsLose={setIsLose}
 					setFlagsCount={setFlagsCount}
 					setIsRunning={setIsRunning}
 					{...configDifficulty[gameDifficulty]}
 				/>
 			</div>
-
-
 		</>
 	);
 };

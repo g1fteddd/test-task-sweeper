@@ -7,14 +7,13 @@ export interface IDifficulty {
 export enum DifficultyName {
 	EASY = 'easy',
 	MEDIUM = 'medium',
-	HARD = 'hard'
+	HARD = 'hard',
 }
 
 type TConfigDifficulty = {
 	[key in DifficultyName]: IDifficulty;
 };
 
-// TODO: сделать кастомную разметку
 const configDifficulty: TConfigDifficulty = {
 	easy: {
 		width: 8,

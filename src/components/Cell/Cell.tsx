@@ -21,18 +21,17 @@ interface INumberColorMap {
 	[key: number]: string;
 }
 
-
 const Cell: React.FC<ICellProps> = ({
-										value,
-										isRevealed,
-										isMine,
-										isFlag,
-										isQuestion,
-										onClick,
-										onRightClick,
-										x,
-										y,
-									}) => {
+	value,
+	isRevealed,
+	isMine,
+	isFlag,
+	isQuestion,
+	onClick,
+	onRightClick,
+	x,
+	y,
+}) => {
 	const numberToColorMap: INumberColorMap = {
 		1: 'blue',
 		2: 'green',
@@ -54,7 +53,10 @@ const Cell: React.FC<ICellProps> = ({
 	};
 	return (
 		<div
-			className={[styles['cell'], styles[`${isRevealed ? 'open' : ''}`]].join(' ')}
+			className={[
+				styles['cell'],
+				styles[`${isRevealed ? 'open' : ''}`],
+			].join(' ')}
 			onClick={e => onClick(e, x, y)}
 			onContextMenu={e => onRightClick(e, x, y)}
 			style={{ color: numberToColorMap[value] }}

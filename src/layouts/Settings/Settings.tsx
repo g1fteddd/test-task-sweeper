@@ -3,7 +3,11 @@ import styles from './Settings.module.scss';
 import { useSelector } from 'react-redux';
 import { settingsSelector } from '../../redux/settings/selectors';
 import { useAppDispatch } from '../../redux/store';
-import { setGameDifficulty, setHasGameStarted, setName } from '../../redux/settings/slice';
+import {
+	setGameDifficulty,
+	setHasGameStarted,
+	setName,
+} from '../../redux/settings/slice';
 import TextField from '../../components/ui/TextField/TextField';
 import RadioField from '../../components/ui/RadioField/RadioField';
 import Button from '../../components/ui/Button/Button';
@@ -13,13 +17,11 @@ const Settings: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const { name, gameDifficulty } = useSelector(settingsSelector);
 
-	// TODO: сделать красиво с Enum из configDifficulty
 	const dataDifficulty = [
 		{ value: DifficultyName.EASY, text: 'Простой 8x8, 10 мин' },
 		{ value: DifficultyName.MEDIUM, text: 'Средний 16x16, 40 мин' },
 		{ value: DifficultyName.HARD, text: 'Сложный 32x16, 100 мин' },
 	];
-
 
 	const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
 		dispatch(setName(e.target.value));

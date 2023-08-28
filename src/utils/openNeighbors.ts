@@ -1,6 +1,12 @@
 import { ICell } from './initializeBoard';
 
-const openNeighbors = (board: ICell[][], x: number, y: number, width: number, height: number) => {
+const openNeighbors = (
+	board: ICell[][],
+	x: number,
+	y: number,
+	width: number,
+	height: number,
+) => {
 	if (
 		x >= 0 &&
 		x < width &&

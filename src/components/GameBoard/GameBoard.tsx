@@ -5,8 +5,8 @@ import cloneBoard from '../../utils/cloneBoard';
 import openNeighbors from '../../utils/openNeighbors';
 import { ICell } from '../../utils/initializeBoard';
 import { IDifficulty } from '../../utils/configDifficulty';
+import showAllCell from '../../utils/showAllCell';
 
-// TODO: Прописать нормальные типы
 interface IGameBoardProps extends IDifficulty {
 	board: ICell[][];
 	setBoard: React.Dispatch<React.SetStateAction<ICell[][]>>;
@@ -17,16 +17,16 @@ interface IGameBoardProps extends IDifficulty {
 }
 
 const GameBoard: React.FC<IGameBoardProps> = ({
-												  board,
-												  setBoard,
-												  setIsWin,
-												  setIsLose,
-												  setFlagsCount,
-												  setIsRunning,
-												  width,
-												  height,
-												  mines,
-											  }) => {
+	board,
+	setBoard,
+	setIsWin,
+	setIsLose,
+	setFlagsCount,
+	setIsRunning,
+	width,
+	height,
+	mines,
+}) => {
 	const handleLeftClick = (
 		e: React.MouseEvent<HTMLDivElement>,
 		x: number,
@@ -35,16 +35,16 @@ const GameBoard: React.FC<IGameBoardProps> = ({
 		const copyBoard: ICell[][] = cloneBoard(board);
 		const cell = copyBoard[x][y];
 
-		if (!cell.isFlag && !cell.isQuestion) {
-			if (cell.isMine) {
-				setIsLose(true);
-				setIsRunning(false);
-				for (let i = 0; i < width; i++) {
-					for (let j = 0; j < height; j++) {
-						copyBoard[i][j].isRevealed = true;
-					}
-				}
-			}
+		if (cell.isFlag || cell.isQuestion) return;
+
+		if (cell.isMine) {
+			setIsLose(true);
+			setIsRunning(false);
+			// Показываем все клетки
+			const openBoard = showAllCell(board, width, height);
+			setBoard(openBoard);
+		} else {
+			// Открываем соседей
 			openNeighbors(copyBoard, x, y, width, height);
 			setBoard(copyBoard);
 		}
@@ -64,6 +64,7 @@ const GameBoard: React.FC<IGameBoardProps> = ({
 		if (cell.isFlag) {
 			cell.isFlag = false;
 			cell.isQuestion = true;
+			setFlagsCount((prev: number) => prev - 1);
 		} else if (cell.isQuestion) {
 			cell.isQuestion = false;
 		} else {
@@ -75,13 +76,15 @@ const GameBoard: React.FC<IGameBoardProps> = ({
 		setBoard(copyBoard);
 	};
 
-	// проверка на выигрыш
 	useEffect(() => {
 		const revealedCells = board
 			.flat()
 			.filter(cell => cell.isRevealed).length;
 		if (revealedCells === width * height - mines) {
 			setIsWin(true);
+			// Показываем все клетки
+			const openBoard = showAllCell(board, width, height);
+			setBoard(openBoard);
 			setIsRunning(false);
 		}
 	}, [board]);

@@ -17,7 +17,6 @@
 //	}
 //}
 
-
 .game {
 	display: flex;
 	justify-content: center;
@@ -33,12 +32,19 @@
 		padding: 20px;
 		border-radius: 10px;
 
-
 		.result {
 			padding: 5px;
 			border-radius: 5px;
 			border: 1px solid rgb(227, 223, 255);
 			font-size: 16px;
+
+			.win {
+				color: green;
+			}
+
+			.lose {
+				color: red;
+			}
 		}
 
 		& + * {

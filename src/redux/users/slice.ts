@@ -6,7 +6,6 @@ const initialState: IUsers = {
 	users: initialUsers ? JSON.parse(initialUsers) : [],
 };
 
-
 const usersSlice = createSlice({
 	name: 'users',
 	initialState,
